@@ -2,10 +2,11 @@
   "name": "electron-quick-start",
   "version": "1.0.0",
   "description": "A minimal Electron application",
-  "main": "dist/main.js",
+  "main": "app/main.js",
   "scripts": {
     "build": "gulp build",
-    "start": "gulp start"
+    "start": "gulp start",
+    "pack": "gulp package"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -23,9 +24,17 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "electron": "~1.8.2",
+    "electron-packager": "^11.0.1",
+    "electron-react-devtools": "^0.5.3",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-concat": "^2.6.1",
-    "gulp-sourcemaps": "^2.6.4"
+    "gulp-css": "^0.1.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-util": "^3.0.8"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   }
 }
