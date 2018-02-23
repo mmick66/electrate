@@ -1,6 +1,7 @@
 import electron from 'electron';
 import path from 'path';
 import url from 'url';
+import isDevelopment from 'electron-is-dev';
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -16,8 +17,10 @@ const createWindow = () => {
     slashes: true
   }));
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (isDevelopment) {
+      mainWindow.webContents.openDevTools();
+  }
+
 
   mainWindow.on('closed', () => {
     mainWindow = null;
