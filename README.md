@@ -4,7 +4,7 @@
   <img src="https://github.com/mmick66/electrate/blob/master/Logo.png">
 </p>
 
-This is a minimal Electron application based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start) within the Electron documentation.
+This is a base [Electron](https://electronjs.org/) setup with [React](https://reactjs.org/) based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start) within the Electron documentation.
 
 ## To Use
 
