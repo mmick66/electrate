@@ -6,7 +6,7 @@
 
 This is a base [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) setup based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start).
 
-## To Use
+## Installing
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
@@ -17,7 +17,11 @@ git clone https://github.com/mmick66/electrate my-app
 cd my-app
 # Install dependencies
 npm install
-# Run the app
+```
+
+## Running the Application
+
+```
 npm start
 ```
 
