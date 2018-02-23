@@ -1,7 +1,7 @@
 node_modules
 
-.idea/ # WebStorm Project
-
-.DS_Store # MacOS Finder
+.DS_Store
 
 dist
+
+.idea
