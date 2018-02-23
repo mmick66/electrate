@@ -4,8 +4,6 @@ const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
 const babel = require('gulp-babel');
 const css = require('gulp-css');
-const packager = require('electron-packager');
-const util = require('gulp-util');
 const pkg = require('./package.json');
 
 const destination = 'app/';
@@ -47,22 +45,10 @@ gulp.task('start', ['copy', 'build'], () => {
         .on('close', () => process.exit());
 });
 
-let packagerOptions = {
-    platform: 'darwin',
-    arch: 'all',
-    asar: true,
-    dir: './build',
-    icon: './assets/icon.icns',
-    name: pkg.name,
-    out: './dist',
-    overwrite: true,
-    prune: true,
-    version: pkg.electronVersion,
-    'app-version': pkg.version
-};
-gulp.task('package', ['copy', 'build'], () => {
 
-    packager(packagerOptions, (err, appPath) => {
+gulp.task('release', ['copy', 'build'], () => {
 
-    });
+    child_process.spawn('build', ['.'], { stdio: 'inherit' })
+        .on('close', () => process.exit());
+
 });
