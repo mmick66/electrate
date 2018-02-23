@@ -1,0 +1,10 @@
+body {
+    margin: 0px;
+}
+
+.hello {
+    font-family: "Century Gothic";
+    width: 500px;
+    margin: 70px auto;
+    text-align: center;
+}

@@ -3,7 +3,13 @@ import React from 'react';
 export default class App extends React.Component {
     render() {
         return (
-            <h1>Hello</h1>
+            <div className={'hello'}>
+                <h2>Hello Electrate</h2>
+                <img src="../Logo.png" />
+                <h4>A basic Electron + React.js template</h4>
+                <h4>Have Fun!</h4>
+            </div>
+
         );
     }
 }
