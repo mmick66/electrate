@@ -27,7 +27,7 @@ npm install
 npm start
 ```
 
-## Building the Application
+## Packaging the Application
 
 Replace the icon inside the `build` folder and run
 
