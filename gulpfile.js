@@ -7,9 +7,9 @@ const css = require('gulp-css');
 
 const destination = 'app/';
 
-const babelrc = {
-    presets: ['babel-preset-es2015', 'babel-preset-react'].map(require.resolve)
-};
+// const babelrc = {
+//     presets: ['babel-preset-es2015', 'babel-preset-react'].map(require.resolve)
+// };
 
 gulp.task('copy', () => {
     return gulp.src('src/index.html').pipe(gulp.dest(destination));
@@ -24,7 +24,7 @@ gulp.task('build-css', function(){
 gulp.task('build-main', () => {
     return gulp.src('main.js')
         .pipe(sourcemaps.init())
-        .pipe(babel(babelrc))
+        .pipe(babel())
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(destination));
 });
@@ -32,7 +32,7 @@ gulp.task('build-main', () => {
 gulp.task('build-js', () => {
         return gulp.src('src/**/*.js')
             .pipe(sourcemaps.init())
-            .pipe(babel(babelrc))
+            .pipe(babel())
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest(destination));
 });
