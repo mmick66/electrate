@@ -37,7 +37,15 @@ npm run release
 
 Check the `dist` folder for the app
 
-## How it Works
+## Testing
+
+The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` and they will be run through
+
+```
+npm run test
+```
+
+## How Electron Works with React
 
 This template compiles all `*.js` files in `src` into standard JS and copies it to `app`. There it includes `*.html` and `*.css` together with the `main.js` start file. From then it runs and packages using `gulp` as run through `npm`.
 
@@ -46,13 +54,7 @@ This template compiles all `*.js` files in `src` into standard JS and copies it 
   <img src="https://preview.ibb.co/jF9Akx/electron_sequence.png" alt="electron_sequence" border="0">
 </p>
 
-## Testing
 
-The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` and they will be run through
-
-```
-npm run test
-```
 
 
 ## Extending the Template
