@@ -56,8 +56,6 @@ This template compiles all `*.js` files in `src` into standard JS and copies it 
 </p>
 
 
-
-
 ## Extending the Template
 
 Some useful tools include:
@@ -65,4 +63,9 @@ Some useful tools include:
 1. [Spectron](https://electronjs.org/spectron)
 2. [Karma](https://karma-runner.github.io/2.0/index.html) + [Jasmine](https://jasmine.github.io/)
 3. [Ant Design](https://ant.design/) (a React based UI Framework)
+
+
+## Copyright
+
+The template is provided through the Creative Commons Licence while the Icon is provided by [Vecteezy](https://www.vecteezy.com/).
 
