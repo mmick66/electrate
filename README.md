@@ -4,7 +4,7 @@
   <img src="https://github.com/mmick66/electrate/blob/master/assets/logo.png">
 </p>
 
-This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) setup based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start).
+This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) setup based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start). It is designed to work without the need of a development server running in the background like so many other templates and it is hence free of cross domain request constraints.
 
 It is further explained [over on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
 
