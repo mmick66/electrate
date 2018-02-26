@@ -35,3 +35,12 @@ npm release
 
 Check the `dist` folder for the app
 
+## How it Works
+
+This template compiles all `*.js` files in `src` into standard JS and copies it to `app`. There it includes `*.html` and `*.css` together with the `main.js` start file. From then it runs and packages using `gulp` as run through `npm`.
+
+
+<p align="center"> 
+  <img src="https://preview.ibb.co/jF9Akx/electron_sequence.png" alt="electron_sequence" border="0">
+</p>
+
