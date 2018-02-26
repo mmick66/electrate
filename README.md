@@ -21,13 +21,21 @@ cd my-app
 npm install
 ```
 
-## Running the Application
+## Running
 
 ```
 npm run start
 ```
 
-## Packaging the Application
+## Testing
+
+The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` and they will be run through
+
+```
+npm run test
+```
+
+## Packaging
 
 Replace the icon inside the `build` folder and run
 
@@ -37,13 +45,6 @@ npm run release
 
 Check the `dist` folder for the app
 
-## Testing
-
-The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` and they will be run through
-
-```
-npm run test
-```
 
 ## How Electron Works with React
 
