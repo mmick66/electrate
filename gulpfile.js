@@ -4,7 +4,6 @@ const gulp = require('gulp');
 const sourcemaps = require('gulp-sourcemaps');
 const babel = require('gulp-babel');
 const css = require('gulp-css');
-const pkg = require('./package.json');
 
 const destination = 'app/';
 
