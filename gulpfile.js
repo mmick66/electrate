@@ -6,12 +6,10 @@ const css   = require('gulp-css');
 
 /* Build */
 
-const destination = 'app/';
-
 gulp.task('build-css', function(){
     return gulp.src('src/**/*.css')
         .pipe(css())
-        .pipe(gulp.dest(destination));
+        .pipe(gulp.dest('app/'));
 });
 
 gulp.task('build-js', () => {
@@ -19,7 +17,7 @@ gulp.task('build-js', () => {
             .pipe(maps.init())
             .pipe(babel())
             .pipe(maps.write('.'))
-            .pipe(gulp.dest(destination));
+            .pipe(gulp.dest('app/'));
 });
 
 
@@ -29,10 +27,14 @@ gulp.task('build', ['build-css', 'build-js']);
 /* Copy */
 
 gulp.task('copy-html', () => {
-    return gulp.src('src/index.html').pipe(gulp.dest(destination));
+    return gulp.src('src/*.html').pipe(gulp.dest('app/'));
 });
 
-gulp.task('copy', ['copy-html']);
+gulp.task('copy-assets', () => {
+    return gulp.src('assets/**/*').pipe(gulp.dest('app/assets'));
+});
+
+gulp.task('copy', ['copy-html', 'copy-assets']);
 
 
 

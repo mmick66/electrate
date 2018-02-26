@@ -1,7 +1,7 @@
 # Electrate
 
 <p align="center"> 
-  <img src="https://github.com/mmick66/electrate/blob/master/Logo.png">
+  <img src="https://github.com/mmick66/electrate/blob/master/assets/logo.png">
 </p>
 
 This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) setup based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start).
