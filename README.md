@@ -6,7 +6,7 @@
 
 This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) setup based on the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start).
 
-I have written more about this [over on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
+It is further explained [over on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
 
 ## Installing
 
