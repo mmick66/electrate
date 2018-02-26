@@ -24,7 +24,7 @@ npm install
 ## Running the Application
 
 ```
-npm start
+npm run start
 ```
 
 ## Packaging the Application
@@ -32,7 +32,7 @@ npm start
 Replace the icon inside the `build` folder and run
 
 ```bash
-npm release
+npm run release
 ```
 
 Check the `dist` folder for the app
@@ -45,6 +45,14 @@ This template compiles all `*.js` files in `src` into standard JS and copies it 
 <p align="center"> 
   <img src="https://preview.ibb.co/jF9Akx/electron_sequence.png" alt="electron_sequence" border="0">
 </p>
+
+## Testing
+
+The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` and they will be run through
+
+```
+npm run test
+```
 
 
 ## Extending the Template
