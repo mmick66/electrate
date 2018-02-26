@@ -1,5 +1,14 @@
-node_modules
-.DS_Store
+node_modules/
+
+# Build Folders
 app/
 dist/
+
+# MacOS Finder
+.DS_Store
+
+# WebStorm Project Folder
 .idea
+
+# Jest Snapshot Folder
+**/__snapshots__/
