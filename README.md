@@ -67,5 +67,5 @@ Some useful tools include:
 
 ## Copyright
 
-The template is provided through the [Creative Commons Licence](https://creativecommons.org/publicdomain/zero/1.0/) while the Icon was provided by [Vecteezy](https://www.vecteezy.com/).
+The template is made available through the [Creative Commons Licence](https://creativecommons.org/publicdomain/zero/1.0/). The logo icon was provided by [Vecteezy](https://www.vecteezy.com/).
 
