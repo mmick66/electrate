@@ -21,7 +21,7 @@ gulp.task('build-js', () => {
 });
 
 
-gulp.task('build', ['build-css', 'build-js']);
+gulp.task('build', gulp.series('build-css', 'build-js'));
 
 
 /* Copy */
@@ -34,27 +34,27 @@ gulp.task('copy-assets', () => {
     return gulp.src('assets/**/*').pipe(gulp.dest('app/assets'));
 });
 
-gulp.task('copy', ['copy-html', 'copy-assets']);
+gulp.task('copy', gulp.parallel('copy-html', 'copy-assets'));
 
 
 
 /* Execute */
 
-const cmd   = (name) => 'node_modules/.bin/' + name;
+const cmd   = (name) => `./node_modules/.bin/${name}`;
 const args  = (more) => Array.isArray(more) ? ['.'].concat(more) : ['.'];
 const exit  = () => process.exit();
 
-gulp.task('start', ['copy', 'build'], () => {
+gulp.task('start', gulp.series('copy', 'build', () => {
     spawn(cmd('electron'), args(), { stdio: 'inherit' }).on('close', exit);
-});
+}));
 
 
-gulp.task('release', ['copy', 'build'], () => {
+gulp.task('release', gulp.series('copy', 'build', () => {
     spawn(cmd('electron-builder'), args(), { stdio: 'inherit' }).on('close', exit);
-});
+}));
 
-gulp.task('test', ['copy', 'build'], () => {
+gulp.task('test', gulp.series('copy', 'build', () => {
     spawn(cmd('jest'), args(), { stdio: 'inherit' }).on('close', exit);
-});
+}));
 
 
