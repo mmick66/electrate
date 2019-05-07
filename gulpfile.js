@@ -3,6 +3,7 @@ const gulp  = require('gulp');
 const maps  = require('gulp-sourcemaps');
 const babel = require('gulp-babel');
 const css   = require('gulp-css');
+const path   = require('path');
 
 /* Build */
 
@@ -40,21 +41,21 @@ gulp.task('copy', gulp.parallel('copy-html', 'copy-assets'));
 
 /* Execute */
 
-const cmd   = (name) => `./node_modules/.bin/${name}`;
+const cmd   = (name) => path.join('.', 'node_modules', '.bin', name);
 const args  = (more) => Array.isArray(more) ? ['.'].concat(more) : ['.'];
 const exit  = () => process.exit();
 
 gulp.task('start', gulp.series('copy', 'build', () => {
-    spawn(cmd('electron'), args(), { stdio: 'inherit' }).on('close', exit);
+    spawn(cmd('electron'), args(), { stdio: 'inherit', cwd: '.', shell: true }).on('close', exit);
 }));
 
 
 gulp.task('release', gulp.series('copy', 'build', () => {
-    spawn(cmd('electron-builder'), args(), { stdio: 'inherit' }).on('close', exit);
+    spawn(cmd('electron-builder'), args(), { stdio: 'inherit', cwd: '.', shell: true }).on('close', exit);
 }));
 
 gulp.task('test', gulp.series('copy', 'build', () => {
-    spawn(cmd('jest'), args(), { stdio: 'inherit' }).on('close', exit);
+    spawn(cmd('jest'), args(), { stdio: 'inherit', cwd: '.', shell: true }).on('close', exit);
 }));
 
 
