@@ -45,7 +45,7 @@ const cmd   = (name) => path.join('.', 'node_modules', '.bin', name);
 const args  = (more) => Array.isArray(more) ? ['.'].concat(more) : ['.'];
 const exit  = () => process.exit();
 
-gulp.task('start', gulp.series('copy', 'build', () => {
+gulp.task('start', gulp.series('copy', 'build', async () => {
     spawn(cmd('electron'), args(), { stdio: 'inherit', cwd: '.', shell: true }).on('close', exit);
 }));
 
