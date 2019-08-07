@@ -29,10 +29,10 @@ gulp.task('start', gulp.series('html', 'css', 'js', () => { // 4.
     ).on('close', () => process.exit());
 }));
 
-// gulp.task('release', gulp.series('html', 'css', 'js', () => { // 5.
-//     spawn(
-//         'node_modules/.bin/electron-builder',
-//         ['.'],
-//         { stdio: 'inherit' }
-//     ).on('close', () => process.exit());
-// }));
+gulp.task('release', gulp.series('html', 'css', 'js', () => { // 5.
+    spawn(
+        'node_modules/.bin/electron-builder',
+        ['.'],
+        { stdio: 'inherit' }
+    ).on('close', () => process.exit());
+}));
