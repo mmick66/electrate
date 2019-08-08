@@ -1,7 +1,6 @@
 import electron from 'electron';
 import path from 'path';
 import url from 'url';
-import isDevelopment from 'electron-is-dev';
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -10,8 +9,8 @@ let mainWindow;
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 800, 
-    height: 600, 
+    width: 800,
+    height: 600,
     webPreferences: {
       nodeIntegration: true
     }
@@ -22,11 +21,6 @@ const createWindow = () => {
     protocol: 'file:',
     slashes: true
   }));
-
-  if (isDevelopment) {
-      mainWindow.webContents.openDevTools();
-  }
-
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -46,4 +40,3 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
