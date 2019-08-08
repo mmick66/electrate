@@ -1,7 +1,7 @@
 const spawn = require('child_process').spawn;
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const css = require('gulp-css');
+const css = require('gulp-clean-css');
 // 1. Copy the index.html as is
 gulp.task('html', () => {
     return gulp.src('src/index.html')
