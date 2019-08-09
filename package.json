@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "install-app-deps",
     "build": "gulp build",
-    "start": "gulp start",
+    "start": "gulp",
     "test": "gulp test",
     "release": "gulp release"
   },
@@ -32,6 +32,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-clean-css": "^4.2.0",
     "gulp-concat": "^2.6.1",
+    "gulp-livereload": "^4.0.1",
     "jest": "^24.8.0",
     "react-test-renderer": "^16.8.6"
   },
