@@ -4,6 +4,10 @@ const babel = require('gulp-babel');
 const css = require('gulp-clean-css');
 const livereload = require('gulp-livereload');
 
+gulp.task('copy', () => {
+    return gulp.src('assets/**/*')
+        .pipe(gulp.dest('app/assets'));
+});
 
 gulp.task('html', () => {
     return gulp.src('src/index.html')
@@ -32,7 +36,7 @@ gulp.task('watch', () => {
   gulp.watch('src/**/*.js', gulp.series('js'));
 });
 
-gulp.task('build', gulp.series('html', 'css', 'js'));
+gulp.task('build', gulp.series('copy', 'html', 'css', 'js'));
 
 gulp.task('start', gulp.series('build', () => {
     spawn(
