@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default class App extends React.Component {
+    dummy = () => {
+        // Just to test arrow functions
+    }
+
     render() {
         return (
             <div className={'hello'}>
