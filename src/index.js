@@ -10,7 +10,7 @@ async function asyncTest () {
 
 async function myAsyncfunc () {
     return new Promise(resolve => {
-        setTimeout(resolve("async/await now runs"));
+        setTimeout(resolve("async/await now runs"), 1000);
     })
 }
 
