@@ -4,11 +4,6 @@ const babel = require('gulp-babel');
 const css = require('gulp-clean-css');
 const livereload = require('gulp-livereload');
 
-gulp.task('copy', () => {
-    return gulp.src('assets/**/*')
-        .pipe(gulp.dest('app/assets'));
-});
-
 gulp.task('html', () => {
     return gulp.src('src/index.html')
         .pipe(gulp.dest('app/'))
@@ -29,14 +24,21 @@ gulp.task('js', () => {
          .pipe(livereload());
 });
 
+gulp.task('images', () => {
+    return gulp.src('src/assets/*')
+         .pipe(gulp.dest('app/assets'))
+         .pipe(livereload());
+})
+
 gulp.task('watch', async function() {
   livereload.listen();
   gulp.watch('src/**/*.html', gulp.series('html'));
   gulp.watch('src/**/*.css', gulp.series('css'));
   gulp.watch('src/**/*.js', gulp.series('js'));
+  gulp.watch('src/assets/**/*', gulp.series('images'));
 });
 
-gulp.task('build', gulp.series('copy', 'html', 'css', 'js'));
+gulp.task('build', gulp.series('html', 'css', 'js', 'images'));
 
 gulp.task('start', gulp.series('build', () => {
     return exec(
