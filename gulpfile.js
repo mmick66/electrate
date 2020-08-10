@@ -53,3 +53,9 @@ gulp.task('release', gulp.series('build', () => {
         __dirname+'/node_modules/.bin/electron-builder .'
     ).on('close', () => process.exit());
 }));
+
+gulp.task('make-icon', () => {
+    return exec(
+         __dirname+'/node_modules/.bin/electron-icon-maker --input='+__dirname+'/assets/logo.png --output=.'
+    ).on('close', () => process.exit());
+});

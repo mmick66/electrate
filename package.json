@@ -8,7 +8,8 @@
     "build": "gulp build",
     "start": "gulp",
     "test": "gulp test",
-    "release": "gulp release"
+    "release": "gulp release",
+    "make-icon": "gulp make-icon"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -22,12 +23,13 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.8.0",
     "electron": "~5.0.1",
     "electron-builder": "^20.39.0",
+    "electron-icon-maker": "0.0.4",
     "electron-react-devtools": "^0.5.3",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
