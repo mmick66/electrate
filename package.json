@@ -28,7 +28,7 @@
     "@babel/preset-react": "^7.0.0",
     "babel-jest": "^24.8.0",
     "electron": "~18.3.7",
-    "electron-builder": "^20.39.0",
+    "electron-builder": "^25.0.5",
     "electron-icon-maker": "0.0.4",
     "electron-react-devtools": "^0.5.3",
     "gulp": "^4.0.2",
