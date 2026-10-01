@@ -1,8 +1,10 @@
 // Smoke-tests the app that `electron-builder --dir` packaged: its Electron
 // fuses read back as build.electronFuses in package.json sets them, and it
 // starts and renders its page with the Node.js entry points the fuses close
-// turned on in its environment. CI runs it on Linux, macOS and Windows. Run it
-// locally after `npm run build && npx electron-builder --dir`, or pass it the
+// turned on in its environment. It also reports how long the app took to
+// render its page and the size of the renderer's JavaScript bundle, without a
+// budget to fail on: CI runner timings vary too much for one. CI runs it on
+// Linux, macOS and Windows. Run it locally after `npm run build && npx electron-builder --dir`, or pass it the
 // path to a packaged app (the .app bundle on macOS, the executable elsewhere).
 
 const { spawn } = require('node:child_process');
@@ -15,6 +17,12 @@ const { name, productName = name, build } = require('../package.json');
 
 const RENDERER_URL = 'app://renderer/index.html';
 const TIMEOUT_MS = 60_000;
+// How often to look for the rendered page, and so how finely the time it
+// took to render is measured.
+const POLL_MS = 100;
+
+// Where `npm run build` writes the renderer bundle that gets packaged.
+const RENDERER_ASSETS = path.join(__dirname, '..', 'out', 'renderer', 'assets');
 
 // The build.electronFuses keys that configure electron-builder rather than
 // name a fuse.
@@ -79,6 +87,45 @@ const checkFuses = async (appPath, config) => {
   if (wrong.length > 0) {
     throw new Error(`Fuses not flipped: ${wrong.join('; ')}`);
   }
+};
+
+// The renderer's JavaScript files in assetsDir, as [file, bytes] pairs, and
+// their total size in bytes.
+const rendererBundleSize = (assetsDir) => {
+  const files = fs
+    .readdirSync(assetsDir)
+    .filter((file) => file.endsWith('.js'))
+    .sort()
+    .map((file) => [file, fs.statSync(path.join(assetsDir, file)).size]);
+  const total = files.reduce((sum, [, bytes]) => sum + bytes, 0);
+  return { files, total };
+};
+
+const reportBundleSize = (assetsDir) => {
+  if (!fs.existsSync(assetsDir)) {
+    console.log(`No renderer bundle in ${assetsDir}; run \`npm run build\``);
+    return undefined;
+  }
+  const { files, total } = rendererBundleSize(assetsDir);
+  console.log(`Renderer JS bundle: ${total} bytes`);
+  for (const [file, bytes] of files) {
+    console.log(`  ${file} is ${bytes} bytes`);
+  }
+  return total;
+};
+
+// Adds the numbers to the summary of the GitHub Actions job running this.
+const writeJobSummary = (renderMs, bundleBytes) => {
+  if (!process.env.GITHUB_STEP_SUMMARY) {
+    return;
+  }
+  const bundle = bundleBytes === undefined ? 'not built' : `${bundleBytes}`;
+  fs.appendFileSync(
+    process.env.GITHUB_STEP_SUMMARY,
+    '| Time to rendered (ms) | Renderer JS bundle (bytes) |\n' +
+      '| ---: | ---: |\n' +
+      `| ${renderMs} | ${bundle} |\n`,
+  );
 };
 
 const freePort = () =>
@@ -168,7 +215,7 @@ const waitForPage = async (port, exited) => {
     } catch {
       // DevTools is not listening yet.
     }
-    await sleep(500);
+    await sleep(POLL_MS);
   }
   throw new Error(`Timed out waiting for ${RENDERER_URL}: ${last}`);
 };
@@ -246,9 +293,11 @@ const main = async () => {
 
   console.log(`Fuses of ${appPath}:`);
   await checkFuses(appPath, build.electronFuses);
+  const bundleBytes = reportBundleSize(RENDERER_ASSETS);
 
   const port = await freePort();
   const userData = fs.mkdtempSync(path.join(os.tmpdir(), 'electrate-smoke-'));
+  const launchedAt = performance.now();
   const { app, signs } = launch(appPath, port, userData);
   const exited = {};
   let stderr = '';
@@ -265,7 +314,10 @@ const main = async () => {
 
   try {
     const page = await waitForPage(port, exited);
+    const renderMs = Math.round(performance.now() - launchedAt);
     console.log(`Rendered ${RENDERER_URL} ("${page.title}")`);
+    console.log(`Time to rendered: ${renderMs} ms after launch`);
+    writeJobSummary(renderMs, bundleBytes);
     for (const [pattern, meaning] of signs) {
       if (pattern.test(stderr)) {
         throw new Error(meaning);
@@ -284,4 +336,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { findPackagedApp, expectedFuses };
+module.exports = { findPackagedApp, expectedFuses, rendererBundleSize };
