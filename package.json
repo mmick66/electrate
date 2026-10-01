@@ -40,7 +40,7 @@
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "babel-jest": "^30.5.2",
-    "electron": "~18.3.7",
+    "electron": "^44.5.1",
     "electron-builder": "^26.15.3",
     "electron-react-devtools": "^0.5.3",
     "electron-vite": "^5.0.0",
