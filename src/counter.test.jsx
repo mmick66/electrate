@@ -2,11 +2,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import App from './app';
 
 test('App counts button clicks', () => {
-    render(<App />);
+  render(<App />);
 
-    const button = screen.getByRole('button');
-    expect(button.textContent).toBe('Count: 0');
+  const button = screen.getByRole('button');
+  expect(button.textContent).toBe('Count: 0');
 
-    fireEvent.click(button);
-    expect(button.textContent).toBe('Count: 1');
+  fireEvent.click(button);
+  expect(button.textContent).toBe('Count: 1');
 });

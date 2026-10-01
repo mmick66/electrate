@@ -25,12 +25,15 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      # ESLint needs no install scripts; the build-and-test job below runs them.
+      # ESLint and Prettier need no install scripts; the build-and-test job below runs them.
       - name: Install
         run: npm ci --ignore-scripts
 
       - name: Lint
         run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
 
   build-and-test:
     name: ${{ matrix.os }}

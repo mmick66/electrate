@@ -16,4 +16,4 @@ updates:
       interval: weekly
     groups:
       github-actions:
-        patterns: ["*"]
+        patterns: ['*']

@@ -3,3 +3,5 @@ dist/
 package-lock.json
 .beads/
 .orchestra/
+# Legal text: kept verbatim (Prettier turns its setext headings into rules)
+LICENSE.md

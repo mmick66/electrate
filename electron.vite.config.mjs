@@ -6,16 +6,16 @@ export default defineConfig({
   main: {
     build: {
       rollupOptions: {
-        input: { index: resolve('main.js') }
-      }
-    }
+        input: { index: resolve('main.js') },
+      },
+    },
   },
   preload: {
     build: {
       rollupOptions: {
-        input: { index: resolve('preload.js') }
-      }
-    }
+        input: { index: resolve('preload.js') },
+      },
+    },
   },
   renderer: {
     root: resolve('src'),
@@ -26,8 +26,8 @@ export default defineConfig({
     plugins: [react()],
     build: {
       rollupOptions: {
-        input: resolve('src/index.html')
-      }
-    }
-  }
+        input: resolve('src/index.html'),
+      },
+    },
+  },
 });

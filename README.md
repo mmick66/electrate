@@ -35,7 +35,7 @@ npm run test
 
 ## Linting
 
-[ESLint](https://eslint.org/) (configured in `eslint.config.mjs`) checks the code and runs in CI; [Prettier](https://prettier.io/) formats it.
+[ESLint](https://eslint.org/) (configured in `eslint.config.mjs`) checks the code and [Prettier](https://prettier.io/) formats it; CI runs both (`npm run format:check`).
 
 ```
 npm run lint
@@ -52,18 +52,15 @@ npm run release
 
 Check the `dist` folder for the app. [electron-builder](https://www.electron.build/icons) generates the macOS, Windows and Linux icons from that one PNG.
 
-
 ## How Electron Works with React
 
 [electron-vite](https://electron-vite.org/) bundles `main.js` into `out/main` and the renderer (`src/index.html` with its scripts and styles) into `out/renderer`; files in `src/public` are copied as they are. `npm start` runs the dev server and restarts Electron when `main.js` changes, `npm run build` writes `out`, and `npm run release` packages `out` with [electron-builder](https://www.electron.build/). The configuration is in `electron.vite.config.mjs`.
 
 The renderer runs sandboxed with context isolation and no Node.js access, under a strict Content Security Policy (set in `src/index.html`). Anything it needs from Node or Electron goes through `preload.js`, which exposes a small API on `window.electrate` with `contextBridge`.
 
-
 <p align="center"> 
   <img src="https://preview.ibb.co/jF9Akx/electron_sequence.png" alt="electron_sequence" border="0">
 </p>
-
 
 ## Extending the Template
 
@@ -73,8 +70,6 @@ Some useful tools include:
 2. [Karma](https://karma-runner.github.io/2.0/index.html) + [Jasmine](https://jasmine.github.io/)
 3. [Ant Design](https://ant.design/) (a React based UI Framework)
 
-
 ## Copyright
 
 The template is made available through the [Creative Commons Licence](https://creativecommons.org/publicdomain/zero/1.0/). The logo icon was provided by [Vecteezy](https://www.vecteezy.com/).
-
