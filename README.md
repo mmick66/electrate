@@ -62,6 +62,8 @@ The packaged app has its [Electron fuses](https://www.electronjs.org/docs/latest
 
 The renderer runs sandboxed with context isolation and no Node.js access, under a strict Content Security Policy (set in `src/index.html`). Anything it needs from Node or Electron goes through `preload.js`, which exposes a small API on `window.electrate` with `contextBridge`.
 
+The app's windows never navigate away from the app or open new windows. A link the user follows opens in the default browser instead, if it is an `https:` address; `isAllowedExternalUrl` in `main.js` decides which links may leave the app, so narrow it there to the sites your app links to.
+
 ```mermaid
 flowchart LR
   electron([Electron]) -- runs --> main["main.js<br/>creates the BrowserWindow"]

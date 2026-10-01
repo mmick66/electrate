@@ -19,6 +19,7 @@ const runMain = async () => {
   const handlers = {};
   const electron = {
     app: {
+      enableSandbox: jest.fn(),
       isPackaged: true,
       on: jest.fn((event, handler) => {
         handlers[event] = handler;

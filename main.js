@@ -88,6 +88,10 @@ const serveRenderer = async (request) => {
   return new Response(response.body, { status: 200, headers });
 };
 
+// Sandbox every renderer the app ever creates, not only the main window. It
+// must run before the app is ready.
+app.enableSandbox();
+
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -111,19 +115,33 @@ const createWindow = () => {
   }
 };
 
-// Links to the web open in the default browser; the app's own windows never
-// navigate away from the app or open new windows.
+// Which links the app may open in the default browser: any https: address.
+// This is the one place to change that; to allow only known sites, check the
+// origin instead, e.g. ['https://github.com'].includes(url.origin).
+const isAllowedExternalUrl = (url) => url.protocol === 'https:';
+
+// Allowed links open in the default browser; everything else is dropped.
 const openExternally = (target) => {
-  const { protocol } = new URL(target);
-  if (protocol === 'https:' || protocol === 'http:') {
-    shell.openExternal(target);
+  let url;
+  try {
+    url = new URL(target);
+  } catch {
+    return;
+  }
+  if (isAllowedExternalUrl(url)) {
+    shell.openExternal(url.href);
   }
 };
 
+// The app's own windows never navigate away from the app, in any frame, or
+// open new windows. A link the user follows in the page itself opens in the
+// default browser instead; one inside an embedded frame is only blocked.
 app.on('web-contents-created', (event, contents) => {
-  contents.on('will-navigate', (navigationEvent, target) => {
-    navigationEvent.preventDefault();
-    openExternally(target);
+  contents.on('will-frame-navigate', (navigation) => {
+    navigation.preventDefault();
+    if (navigation.isMainFrame) {
+      openExternally(navigation.url);
+    }
   });
   contents.setWindowOpenHandler(({ url: target }) => {
     openExternally(target);

@@ -37,6 +37,7 @@ afterAll(() => {
 const runMain = async () => {
   const electron = {
     app: {
+      enableSandbox: jest.fn(),
       isPackaged: true,
       on: jest.fn(),
       whenReady: jest.fn(() => Promise.resolve()),

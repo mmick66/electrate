@@ -5,6 +5,7 @@
 
 const mockElectron = {
   app: {
+    enableSandbox: jest.fn(),
     isPackaged: false,
     on: jest.fn(),
     whenReady: jest.fn(() => Promise.resolve()),
