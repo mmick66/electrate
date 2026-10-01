@@ -123,10 +123,18 @@ const applicationMenu = () => {
 
 Menu.setApplicationMenu(applicationMenu());
 
+// The window's colour before the page paints. Keep it in step with the body
+// background in src/index.css, so no blank frame of another colour shows.
+const WINDOW_BACKGROUND = '#ffffff';
+
+// Each window opens hidden and shows once its page has painted, so it never
+// shows blank.
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
+    backgroundColor: WINDOW_BACKGROUND,
     webPreferences: {
       // The renderer gets no Node.js access; preload.js exposes what it needs.
       preload: path.join(__dirname, '../preload/index.js'),
@@ -136,6 +144,7 @@ const createWindow = () => {
     },
   });
 
+  mainWindow.once('ready-to-show', () => mainWindow.show());
   mainWindow.loadURL(rendererUrl());
 };
 

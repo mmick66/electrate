@@ -1,5 +1,7 @@
 body {
   margin: 0px;
+  /* Keep in step with WINDOW_BACKGROUND in main.js. */
+  background-color: #ffffff;
 }
 
 .hello {

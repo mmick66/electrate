@@ -31,6 +31,7 @@ const runMain = async () => {
       jest.fn(function () {
         windows.push(this);
         this.loadURL = jest.fn();
+        this.once = jest.fn();
       }),
       { getAllWindows: () => windows },
     ),

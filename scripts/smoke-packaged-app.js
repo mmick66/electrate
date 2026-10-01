@@ -175,10 +175,12 @@ const connect = async (url) => {
 };
 
 // What the page shows once loaded: its title, whether it rendered any text
-// and whether every image came through app://.
+// and whether every image came through app://. The page is hidden until its
+// window shows, which main.js does on ready-to-show.
 const RENDERED = `({
   title: document.title,
   rendered:
+    document.visibilityState === 'visible' &&
     document.readyState === 'complete' &&
     document.body.innerText.trim() !== '' &&
     [...document.images].every((image) => image.complete && image.naturalWidth > 0),
@@ -207,7 +209,7 @@ const waitForPage = async (port, exited) => {
           if (result.value?.rendered) {
             return result.value;
           }
-          last = `${RENDERER_URL} loaded but not rendered`;
+          last = `${RENDERER_URL} loaded but not rendered or not shown`;
         } finally {
           devtools.close();
         }

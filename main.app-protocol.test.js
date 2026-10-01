@@ -45,6 +45,7 @@ const runMain = async () => {
     BrowserWindow: Object.assign(
       jest.fn(function () {
         this.loadURL = jest.fn();
+        this.once = jest.fn();
       }),
       { getAllWindows: () => [] },
     ),

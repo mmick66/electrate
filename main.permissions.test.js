@@ -15,7 +15,7 @@ const mockElectron = {
   },
   BrowserWindow: jest.fn(() => {
     order.push('window');
-    return { loadURL: jest.fn() };
+    return { loadURL: jest.fn(), once: jest.fn() };
   }),
   ipcMain: { handle: jest.fn() },
   Menu: { buildFromTemplate: jest.fn(), setApplicationMenu: jest.fn() },

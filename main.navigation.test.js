@@ -15,7 +15,7 @@ const mockElectron = {
       return Promise.resolve();
     }),
   },
-  BrowserWindow: jest.fn(() => ({ loadURL: jest.fn() })),
+  BrowserWindow: jest.fn(() => ({ loadURL: jest.fn(), once: jest.fn() })),
   ipcMain: { handle: jest.fn() },
   Menu: { buildFromTemplate: jest.fn(), setApplicationMenu: jest.fn() },
   net: { fetch: jest.fn() },
