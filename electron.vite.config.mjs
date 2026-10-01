@@ -25,6 +25,14 @@ export default defineConfig({
     // src/index.html; a CSP sent as a header would block it.
     plugins: [react()],
     build: {
+      // electron-vite leaves every bundle unminified, and React 19 ships no
+      // minified production build, so the renderer would be three times the
+      // size, all parsed before the window first renders. Main and preload
+      // stay unminified for readable stack traces. The source map, served
+      // from out/renderer like the bundle, keeps renderer errors readable in
+      // DevTools.
+      minify: 'esbuild',
+      sourcemap: true,
       rollupOptions: {
         input: resolve('src/index.html'),
       },
