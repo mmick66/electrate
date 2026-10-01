@@ -66,3 +66,44 @@ jobs:
 
       - name: Test
         run: npm test
+
+  # Packages the app as it ships, Electron fuses and all, but without the
+  # installers, then checks its fuses and that it starts and renders. See
+  # scripts/smoke-packaged-app.js.
+  package:
+    name: package (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # CI has no signing identity, so electron-builder need not look for one.
+      - name: Package
+        run: npx electron-builder --dir --publish never
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      # Ubuntu 24.04 stops unprivileged processes from creating the user
+      # namespaces Chromium's sandbox runs in, and an unpacked build has no
+      # setuid chrome-sandbox to fall back on.
+      - name: Allow user namespaces
+        if: runner.os == 'Linux'
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      # Linux runners have no display, so the app gets a virtual one.
+      - name: Smoke-test the packaged app
+        run: ${{ runner.os == 'Linux' && 'xvfb-run --auto-servernum' || '' }} node scripts/smoke-packaged-app.js

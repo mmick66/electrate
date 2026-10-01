@@ -22,6 +22,15 @@ export default [
     files: ['main.js'],
     languageOptions: { sourceType: 'commonjs' },
   },
+  // So are the scripts CI runs with Node.
+  {
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'commonjs',
+      globals: globals.node,
+    },
+  },
 
   // The renderer is React, with JSX in .jsx files.
   {

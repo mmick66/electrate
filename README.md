@@ -35,6 +35,14 @@ Tests run with [Jest](https://jestjs.io/docs/tutorial-react) in a [jsdom](https:
 npm test
 ```
 
+CI also packages the app on Linux, macOS and Windows, with `electron-builder --dir` so no installer is made, and smoke-tests it with `scripts/smoke-packaged-app.js`: the app's Electron fuses must read back as `build.electronFuses` in `package.json` sets them, and the app must start and render its page even with `ELECTRON_RUN_AS_NODE`, `NODE_OPTIONS` and `--inspect` set. To run it yourself:
+
+```bash
+npm run build
+npx electron-builder --dir
+node scripts/smoke-packaged-app.js
+```
+
 ## Linting
 
 [ESLint](https://eslint.org/) (configured in `eslint.config.mjs`) checks the code and [Prettier](https://prettier.io/) formats it; CI runs both (`npm run format:check`).
