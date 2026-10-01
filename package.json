@@ -63,6 +63,13 @@
     "react-dom": "^19.3.0",
     "react-router-dom": "^5.0.0"
   },
+  "allowScripts": {
+    "electron-winstaller": true,
+    "esbuild": true,
+    "unrs-resolver": true,
+    "@parcel/watcher": false,
+    "fsevents": false
+  },
   "build": {
     "appId": "com.karmadust.electrate",
     "files": [
