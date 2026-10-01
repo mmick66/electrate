@@ -1,14 +1,14 @@
 # Electrate
 
-<p align="center"> 
-  <img src="https://github.com/mmick66/electrate/blob/master/assets/logo.png">
+<p align="center">
+  <img src="assets/logo.png" alt="Electrate logo">
 </p>
 
-This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) template (with live reload), built with [electron-vite](https://electron-vite.org/). In development the renderer is served by the Vite dev server, so CSS changes apply instantly and React component edits apply in place with Fast Refresh, keeping component state; the packaged app loads the bundled renderer from disk. The original design is explained [in my article on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
+This is a simple [Electron](https://electronjs.org/) + [React](https://react.dev/) template (with live reload), built with [electron-vite](https://electron-vite.org/). In development the renderer is served by the Vite dev server, so CSS changes apply instantly and React component edits apply in place with Fast Refresh, keeping component state; the packaged app loads the bundled renderer from disk. The original design is explained [in my article on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
 
 ## Installing
 
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) 22.18 or later (which comes with [npm](https://www.npmjs.com/)) installed on your computer; `.nvmrc` pins the version CI uses. From your command line:
 
 ```bash
 # Clone this repository
@@ -21,23 +21,25 @@ npm install
 
 ## Running
 
+```bash
+npm start
 ```
-npm run start
-```
+
+This starts the Vite dev server and opens the app in Electron.
 
 ## Testing
 
-The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` (`*.test.jsx` if they contain JSX) and they will be run through
+Tests run with [Jest](https://jestjs.io/docs/tutorial-react) in a [jsdom](https://github.com/jsdom/jsdom) environment, and React components are tested with [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) (see `src/app.test.jsx`). Create files with the extension `*.test.js` (`*.test.jsx` if they contain JSX) and they will be run through
 
-```
-npm run test
+```bash
+npm test
 ```
 
 ## Linting
 
 [ESLint](https://eslint.org/) (configured in `eslint.config.mjs`) checks the code and [Prettier](https://prettier.io/) formats it; CI runs both (`npm run format:check`).
 
-```
+```bash
 npm run lint
 npm run format
 ```
@@ -58,17 +60,22 @@ Check the `dist` folder for the app. [electron-builder](https://www.electron.bui
 
 The renderer runs sandboxed with context isolation and no Node.js access, under a strict Content Security Policy (set in `src/index.html`). Anything it needs from Node or Electron goes through `preload.js`, which exposes a small API on `window.electrate` with `contextBridge`.
 
-<p align="center"> 
-  <img src="https://preview.ibb.co/jF9Akx/electron_sequence.png" alt="electron_sequence" border="0">
-</p>
+```mermaid
+flowchart LR
+  electron([Electron]) -- runs --> main["main.js<br/>creates the BrowserWindow"]
+  main -- "loads before the page" --> preload["preload.js<br/>exposes window.electrate"]
+  main -- loads --> html["src/index.html"]
+  html -- "#lt;script type=module#gt;" --> index["src/index.jsx<br/>createRoot(...).render(#lt;App /#gt;)"]
+  index -- imports --> app["src/app.jsx<br/>the App component"]
+  preload -. contextBridge .-> index
+```
 
 ## Extending the Template
 
 Some useful tools include:
 
-1. [Spectron](https://electronjs.org/spectron)
-2. [Karma](https://karma-runner.github.io/2.0/index.html) + [Jasmine](https://jasmine.github.io/)
-3. [Ant Design](https://ant.design/) (a React based UI Framework)
+1. [Playwright](https://playwright.dev/docs/api/class-electron), for end-to-end tests that launch and drive the Electron app
+2. [Ant Design](https://ant.design/) (a React based UI Framework)
 
 ## Copyright
 
