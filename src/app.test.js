@@ -1,16 +1,14 @@
-import React from 'react';
+import { render, screen } from '@testing-library/react';
 import App from './app';
-import renderer from 'react-test-renderer';
 
 test('App renders the welcome screen', () => {
-    const root = renderer.create(<App />).root;
+    const { container } = render(<App />);
 
-    const container = root.findByType('div');
-    expect(container.props.className).toBe('hello');
+    expect(container.firstChild).toHaveProperty('className', 'hello');
 
-    expect(root.findByType('h2').props.children).toBe('Hello Electrate');
-    expect(root.findByType('img').props.src).toBe('./assets/logo.png');
-    expect(root.findAllByType('h4').map(h4 => h4.props.children)).toEqual([
+    expect(screen.getByRole('heading', { level: 2 }).textContent).toBe('Hello Electrate');
+    expect(screen.getByAltText('Electrate logo').getAttribute('src')).toBe('./assets/logo.png');
+    expect(screen.getAllByRole('heading', { level: 4 }).map(h4 => h4.textContent)).toEqual([
         'A basic Electron + React.js template',
         'Have Fun!',
     ]);

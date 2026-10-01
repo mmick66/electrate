@@ -37,6 +37,8 @@
     "@babel/preset-env": "^7.29.7",
     "@babel/preset-react": "^7.29.7",
     "@eslint/js": "^9.39.5",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "babel-jest": "^30.5.2",
     "electron": "~18.3.7",
     "electron-builder": "^26.15.3",
@@ -49,7 +51,6 @@
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
     "prettier": "^3.9.9",
-    "react-test-renderer": "^16.8.6",
     "vite": "^7.3.6"
   },
   "jest": {
@@ -57,8 +58,8 @@
   },
   "dependencies": {
     "electron-is-dev": "^1.1.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "react-router-dom": "^5.0.0"
   },
   "build": {

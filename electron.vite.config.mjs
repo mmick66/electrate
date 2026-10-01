@@ -18,15 +18,18 @@ export default defineConfig({
   },
   renderer: {
     root: resolve('src'),
-    // The sources use JSX in plain .js files.
+    // The sources use JSX in plain .js files, compiled with the automatic
+    // runtime that React 19 requires.
     esbuild: {
       include: /\.js$/,
       exclude: [],
-      loader: 'jsx'
+      loader: 'jsx',
+      jsx: 'automatic'
     },
     optimizeDeps: {
       esbuildOptions: {
-        loader: { '.js': 'jsx' }
+        loader: { '.js': 'jsx' },
+        jsx: 'automatic'
       }
     },
     build: {

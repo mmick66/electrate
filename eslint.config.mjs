@@ -30,6 +30,8 @@ export default [
     },
     settings: { react: { version: 'detect' } },
   },
+  // JSX uses the automatic runtime, so React need not be in scope.
+  { files: ['src/**/*.js'], ...react.configs.flat['jsx-runtime'] },
 
   {
     files: ['src/**/*.test.js'],
