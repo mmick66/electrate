@@ -35,10 +35,9 @@
     "node": ">=22.18.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "@babel/preset-react": "^7.29.7",
     "@eslint/js": "^9.39.5",
     "babel-jest": "^24.8.0",
     "electron": "~18.3.7",
