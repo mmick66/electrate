@@ -57,7 +57,10 @@
     "vite": "^7.3.6"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
+    ]
   },
   "dependencies": {
     "electron-is-dev": "^1.1.0",

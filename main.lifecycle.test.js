@@ -34,6 +34,7 @@ const runMain = async () => {
       }),
       { getAllWindows: () => windows },
     ),
+    ipcMain: { handle: jest.fn() },
     net: { fetch: jest.fn() },
     protocol: { registerSchemesAsPrivileged: jest.fn(), handle: jest.fn() },
     session: {

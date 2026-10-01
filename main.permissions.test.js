@@ -17,6 +17,7 @@ const mockElectron = {
     order.push('window');
     return { loadURL: jest.fn() };
   }),
+  ipcMain: { handle: jest.fn() },
   net: { fetch: jest.fn() },
   protocol: { registerSchemesAsPrivileged: jest.fn(), handle: jest.fn() },
   session: {

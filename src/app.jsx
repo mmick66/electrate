@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import AppVersion from './app-version.jsx';
 
 export default function App() {
   const [clicks, setClicks] = useState(0);
@@ -10,6 +11,7 @@ export default function App() {
       <h4>A basic Electron + React.js template</h4>
       <h4>Have Fun!</h4>
       <button onClick={() => setClicks(clicks + 1)}>Count: {clicks}</button>
+      <AppVersion />
     </div>
   );
 }

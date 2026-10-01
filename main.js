@@ -3,6 +3,7 @@
 const {
   app,
   BrowserWindow,
+  ipcMain,
   net,
   protocol,
   session,
@@ -15,6 +16,14 @@ const { pathToFileURL } = require('node:url');
 // a page cannot reach any other file the process can read.
 const RENDERER_DIR = path.join(__dirname, '../renderer');
 const RENDERER_URL = 'app://renderer/index.html';
+
+// The page the main window loads. electron-vite sets ELECTRON_RENDERER_URL to
+// the dev server in development. A packaged app ignores it, so the
+// environment cannot point the window at a remote page.
+const rendererUrl = () =>
+  !app.isPackaged && process.env.ELECTRON_RENDERER_URL
+    ? process.env.ELECTRON_RENDERER_URL
+    : RENDERER_URL;
 
 // Sent as a header on every app:// response. It matches the <meta> CSP in
 // src/index.html, which stays as a fallback, plus frame-ancestors, which only
@@ -105,14 +114,42 @@ const createWindow = () => {
     },
   });
 
-  // electron-vite sets ELECTRON_RENDERER_URL to the dev server in development.
-  // A packaged app ignores it, so the environment cannot point the window at
-  // a remote page.
-  if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
-    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL);
-  } else {
-    mainWindow.loadURL(RENDERER_URL);
+  mainWindow.loadURL(rendererUrl());
+};
+
+// Whether an IPC message comes from the app's own page: app://renderer when
+// packaged, the dev server in development. Any other frame, such as an
+// embedded third-party page, or a frame that has already gone away, is not.
+// Protocol and host are compared because Node gives a non-special scheme like
+// app: an origin of 'null'.
+const isAppSender = (frame) => {
+  if (!frame) {
+    return false;
   }
+  let sender;
+  try {
+    sender = new URL(frame.url);
+  } catch {
+    return false;
+  }
+  const own = new URL(rendererUrl());
+  return sender.protocol === own.protocol && sender.host === own.host;
+};
+
+// An example of the secure IPC pattern: the renderer can call this through
+// window.electrate.getVersion() in preload.js. Every handler checks who sent
+// the message and validates its arguments before doing anything, since a
+// compromised or foreign frame can send any channel any values. This one
+// takes no arguments; a handler that does should check each one's type and
+// range and reject anything else.
+const handleGetVersion = (event, ...args) => {
+  if (!isAppSender(event.senderFrame)) {
+    throw new Error('electrate:get-version: sender is not the app');
+  }
+  if (args.length !== 0) {
+    throw new Error('electrate:get-version: takes no arguments');
+  }
+  return app.getVersion();
 };
 
 // Which links the app may open in the default browser: any https: address.
@@ -167,6 +204,7 @@ app.whenReady().then(() => {
   // Before any window exists, so no page ever runs with the defaults.
   denyPermissions(session.defaultSession);
   protocol.handle('app', serveRenderer);
+  ipcMain.handle('electrate:get-version', handleGetVersion);
   createWindow();
 
   // On macOS the app stays open with no windows; clicking the dock icon

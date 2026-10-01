@@ -70,6 +70,8 @@ The packaged app has its [Electron fuses](https://www.electronjs.org/docs/latest
 
 The renderer runs sandboxed with context isolation and no Node.js access, under a strict Content Security Policy (set in `src/index.html`). Anything it needs from Node or Electron goes through `preload.js`, which exposes a small API on `window.electrate` with `contextBridge`.
 
+The app shows its version with one example of [IPC](https://www.electronjs.org/docs/latest/tutorial/ipc) done securely; copy it for your own channels. `main.js` handles the `electrate:get-version` channel with `ipcMain.handle`, and the handler first checks that `event.senderFrame` is the app's own page (`app://renderer`, or the dev server in development) and that the call has the arguments it expects, and throws otherwise. `preload.js` exposes only a wrapper, `window.electrate.getVersion()`, which calls `ipcRenderer.invoke` and returns only its result; never expose `ipcRenderer` itself or pass the IPC event to the page. `src/app-version.jsx` calls it, and `main.ipc.test.js` tests the checks.
+
 The app's windows never navigate away from the app or open new windows. A link the user follows opens in the default browser instead, if it is an `https:` address; `isAllowedExternalUrl` in `main.js` decides which links may leave the app, so narrow it there to the sites your app links to.
 
 ```mermaid
