@@ -37,7 +37,7 @@
     "@babel/preset-env": "^7.29.7",
     "@babel/preset-react": "^7.29.7",
     "@eslint/js": "^9.39.5",
-    "babel-jest": "^24.8.0",
+    "babel-jest": "^30.5.2",
     "electron": "~18.3.7",
     "electron-builder": "^26.15.3",
     "electron-react-devtools": "^0.5.3",
@@ -46,10 +46,14 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.13.0",
-    "jest": "^24.8.0",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
     "prettier": "^3.9.9",
     "react-test-renderer": "^16.8.6",
     "vite": "^7.3.6"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "electron-is-dev": "^1.1.0",
