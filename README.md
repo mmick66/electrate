@@ -4,7 +4,7 @@
   <img src="https://github.com/mmick66/electrate/blob/master/assets/logo.png">
 </p>
 
-This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) template (with live reload), built with [electron-vite](https://electron-vite.org/). In development the renderer is served by the Vite dev server, so CSS changes apply instantly and JavaScript changes reload the window; the packaged app loads the bundled renderer from disk. The original design is explained [in my article on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
+This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) template (with live reload), built with [electron-vite](https://electron-vite.org/). In development the renderer is served by the Vite dev server, so CSS changes apply instantly and React component edits apply in place with Fast Refresh, keeping component state; the packaged app loads the bundled renderer from disk. The original design is explained [in my article on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
 
 ## Installing
 
@@ -27,7 +27,7 @@ npm run start
 
 ## Testing
 
-The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` and they will be run through
+The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-react.html) as used at Facebook. Create files with the extension `*.test.js` (`*.test.jsx` if they contain JSX) and they will be run through
 
 ```
 npm run test

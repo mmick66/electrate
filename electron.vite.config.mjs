@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import { defineConfig } from 'electron-vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   main: {
@@ -18,20 +19,11 @@ export default defineConfig({
   },
   renderer: {
     root: resolve('src'),
-    // The sources use JSX in plain .js files, compiled with the automatic
-    // runtime that React 19 requires.
-    esbuild: {
-      include: /\.js$/,
-      exclude: [],
-      loader: 'jsx',
-      jsx: 'automatic'
-    },
-    optimizeDeps: {
-      esbuildOptions: {
-        loader: { '.js': 'jsx' },
-        jsx: 'automatic'
-      }
-    },
+    // Compiles JSX with the automatic runtime and, in development, applies
+    // component edits in place with React Fast Refresh. Its inline preamble
+    // script runs only because Vite injects it ahead of the CSP <meta> in
+    // src/index.html; a CSP sent as a header would block it.
+    plugins: [react()],
     build: {
       rollupOptions: {
         input: resolve('src/index.html')

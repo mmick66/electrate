@@ -23,9 +23,9 @@ export default [
     languageOptions: { sourceType: 'commonjs' },
   },
 
-  // The renderer is React with JSX in plain .js files.
+  // The renderer is React, with JSX in .jsx files.
   {
-    files: ['src/**/*.js'],
+    files: ['src/**/*.{js,jsx}'],
     ...react.configs.flat.recommended,
     languageOptions: {
       ...react.configs.flat.recommended.languageOptions,
@@ -36,10 +36,10 @@ export default [
     settings: { react: { version: 'detect' } },
   },
   // JSX uses the automatic runtime, so React need not be in scope.
-  { files: ['src/**/*.js'], ...react.configs.flat['jsx-runtime'] },
+  { files: ['src/**/*.{js,jsx}'], ...react.configs.flat['jsx-runtime'] },
 
   {
-    files: ['src/**/*.test.js'],
+    files: ['src/**/*.test.{js,jsx}'],
     languageOptions: { globals: globals.jest },
   },
 
