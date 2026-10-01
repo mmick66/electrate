@@ -13,3 +13,10 @@ icons/
 
 # Jest Snapshot Folder
 **/__snapshots__/
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
+*.gate.lock*

@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "electrate",
+  "project_id": "18bd2858-195e-4a7c-b166-41307335a93b"
+}
