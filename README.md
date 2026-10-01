@@ -64,6 +64,27 @@ Check the `dist` folder for the app. [electron-builder](https://www.electron.bui
 
 The packaged app has its [Electron fuses](https://www.electronjs.org/docs/latest/tutorial/fuses) set, in `build.electronFuses` in `package.json`. It ignores `ELECTRON_RUN_AS_NODE`, `NODE_OPTIONS` and `--inspect`, loads its code only from an `app.asar` it verifies, encrypts its cookies and gives `file://` pages no extra privileges. Check them with `npx @electron/fuses read --app <path to the packaged app>`. Turning cookie encryption back off in a later release makes users lose their cookies. `process.fork` needs `ELECTRON_RUN_AS_NODE`; use a [utility process](https://www.electronjs.org/docs/latest/api/utility-process) instead. Flipping fuses breaks the code signature on macOS, and Apple silicon kills an app whose signature is broken, so `resetAdHocDarwinSignature` signs it again ad hoc; with a signing identity, electron-builder then signs it properly.
 
+### Signing and notarizing for macOS
+
+On macOS, `npm run release` builds a DMG for Apple silicon (`electrate-1.0.0-arm64.dmg`) and one for Intel Macs (`electrate-1.0.0-x64.dmg`). Without a signing identity the app is only signed ad hoc: it runs on the Mac that built it, but Gatekeeper blocks it on others. To ship it you need an [Apple Developer Program](https://developer.apple.com/programs/) membership and a **Developer ID Application** certificate. electron-builder signs the app with that certificate under the hardened runtime (`build.mac.hardenedRuntime`), then sends it to Apple to be notarized and staples the ticket to it (`build.mac.notarize`). Give it the credentials in environment variables:
+
+- The certificate: install it in your login keychain and electron-builder finds it, or export it as a `.p12` file and set `CSC_LINK` to its path (or its base64 contents) and `CSC_KEY_PASSWORD` to its password.
+- Notarization, one of:
+  - an [App Store Connect API key](https://developer.apple.com/documentation/appstoreconnectapi/creating-api-keys-for-app-store-connect-api) (recommended): `APPLE_API_KEY` (the path to the `.p8` file), `APPLE_API_KEY_ID` and `APPLE_API_ISSUER`;
+  - your Apple ID: `APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD` (an [app-specific password](https://support.apple.com/en-us/102654)) and `APPLE_TEAM_ID`;
+  - a `notarytool` keychain profile: `APPLE_KEYCHAIN_PROFILE`, and `APPLE_KEYCHAIN` if it is not in the default keychain.
+
+```bash
+export CSC_LINK=~/certs/developer-id.p12 CSC_KEY_PASSWORD=...
+export APPLE_API_KEY=~/keys/AuthKey_ABC123.p8 APPLE_API_KEY_ID=ABC123 APPLE_API_ISSUER=...
+npm run release
+# Check that Gatekeeper accepts it and the notarization ticket is stapled
+spctl --assess --type execute --verbose dist/mac-arm64/electrate.app
+xcrun stapler validate dist/mac-arm64/electrate.app
+```
+
+Without the notarization variables electron-builder signs the app but skips notarization with a warning, and Gatekeeper still blocks it. The hardened runtime allows only what an app lists in its entitlements; electron-builder's default ones (`com.apple.security.cs.allow-jit` and the others in its `templates/entitlements.mac.plist`) let Electron run, and you can replace them with your own in `build/entitlements.mac.plist`. Set `CSC_IDENTITY_AUTO_DISCOVERY=false` to skip signing altogether, as CI does.
+
 ## How Electron Works with React
 
 [electron-vite](https://electron-vite.org/) bundles `main.js` into `out/main` and the renderer (`src/index.html` with its scripts and styles) into `out/renderer`; files in `src/public` are copied as they are. `npm start` runs the dev server and restarts Electron when `main.js` changes, `npm run build` writes `out`, and `npm run release` packages `out` with [electron-builder](https://www.electron.build/). The configuration is in `electron.vite.config.mjs`.
