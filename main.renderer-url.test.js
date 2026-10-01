@@ -10,6 +10,12 @@ const mockElectron = {
     whenReady: jest.fn(() => Promise.resolve()),
   },
   BrowserWindow: jest.fn(() => ({ loadURL: jest.fn(), loadFile: jest.fn() })),
+  session: {
+    defaultSession: {
+      setPermissionRequestHandler: jest.fn(),
+      setPermissionCheckHandler: jest.fn(),
+    },
+  },
   shell: { openExternal: jest.fn() },
 };
 

@@ -1,6 +1,6 @@
 // Plain CommonJS, so Electron and Node load this file as it is: no Babel or
 // bundler transform is needed to run it.
-const { app, BrowserWindow, shell } = require('electron');
+const { app, BrowserWindow, session, shell } = require('electron');
 const path = require('node:path');
 
 const createWindow = () => {
@@ -46,7 +46,22 @@ app.on('web-contents-created', (event, contents) => {
   });
 });
 
+// Electron grants any permission a page asks for (camera, microphone,
+// notifications, geolocation, ...) unless the app decides otherwise. The
+// template uses none, so it denies them all. To allow one, grant it in both
+// handlers, and only to the app's own page: the request handler gets the
+// page's URL as details.requestingUrl, the check handler its origin as
+// requestingOrigin (file:// when packaged, the dev server in development).
+const denyPermissions = (permissionSession) => {
+  permissionSession.setPermissionRequestHandler(
+    (webContents, permission, callback) => callback(false),
+  );
+  permissionSession.setPermissionCheckHandler(() => false);
+};
+
 app.whenReady().then(() => {
+  // Before any window exists, so no page ever runs with the defaults.
+  denyPermissions(session.defaultSession);
   createWindow();
 
   // On macOS the app stays open with no windows; clicking the dock icon
