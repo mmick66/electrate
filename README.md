@@ -44,13 +44,13 @@ npm run format
 
 ## Packaging
 
-Replace the icon inside the `build` folder and run
+Replace `build/icon.png` with your own icon (a square PNG, at least 1024x1024) and run
 
 ```bash
 npm run release
 ```
 
-Check the `dist` folder for the app
+Check the `dist` folder for the app. [electron-builder](https://www.electron.build/icons) generates the macOS, Windows and Linux icons from that one PNG.
 
 
 ## How Electron Works with React

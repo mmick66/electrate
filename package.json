@@ -10,8 +10,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "release": "electron-vite build && electron-builder",
-    "make-icon": "electron-icon-maker --input=./assets/logo.png --output=."
+    "release": "electron-vite build && electron-builder"
   },
   "homepage": "https://github.com/mmick66/electrate#readme",
   "bugs": {
@@ -41,7 +40,6 @@
     "babel-jest": "^24.8.0",
     "electron": "~18.3.7",
     "electron-builder": "^26.15.3",
-    "electron-icon-maker": "0.0.4",
     "electron-react-devtools": "^0.5.3",
     "electron-vite": "^5.0.0",
     "eslint": "^9.39.5",
