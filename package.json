@@ -45,7 +45,6 @@
     "babel-jest": "^30.5.2",
     "electron": "^44.5.1",
     "electron-builder": "^26.15.3",
-    "electron-react-devtools": "^0.5.3",
     "electron-vite": "^5.0.0",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",
@@ -63,10 +62,8 @@
     ]
   },
   "dependencies": {
-    "electron-is-dev": "^1.1.0",
     "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "react-router-dom": "^5.0.0"
+    "react-dom": "^19.3.0"
   },
   "allowScripts": {
     "electron-winstaller": true,
