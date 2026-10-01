@@ -4,7 +4,7 @@ import prettier from 'eslint-config-prettier';
 import globals from 'globals';
 
 export default [
-  { ignores: ['out/', 'dist/', 'icons/'] },
+  { ignores: ['out/', 'dist/'] },
 
   js.configs.recommended,
 
