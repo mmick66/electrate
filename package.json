@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An Electron + React.js template with hot reload, built with electron-vite",
   "main": "out/main/index.js",
+  "desktopName": "electrate.desktop",
   "scripts": {
     "build": "electron-vite build",
     "start": "electron-vite dev --watch",
@@ -83,7 +84,9 @@
       "target": "nsis"
     },
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "category": "Development",
+      "syncDesktopName": true
     },
     "publish": null
   }
