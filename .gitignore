@@ -1,7 +1,7 @@
 node_modules/
 
 # Build Folders
-app/
+out/
 dist/
 icons/
 

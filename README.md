@@ -4,7 +4,7 @@
   <img src="https://github.com/mmick66/electrate/blob/master/assets/logo.png">
 </p>
 
-This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) template (with live reload). It was designed to work without the need of a development server running in the background, like so many other templates, and it's hence free of cross domain request constraints ([CORS](https://reactjs.org/)). It's further explained [in my article on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
+This is a simple [Electron](https://electronjs.org/) + [React.js](https://reactjs.org/) template (with live reload), built with [electron-vite](https://electron-vite.org/). In development the renderer is served by the Vite dev server, so CSS changes apply instantly and JavaScript changes reload the window; the packaged app loads the bundled renderer from disk. The original design is explained [in my article on Medium](https://medium.com/@michael.m/creating-an-electron-and-react-template-5173d086549a).
 
 ## Installing
 
@@ -46,7 +46,7 @@ Check the `dist` folder for the app
 
 ## How Electron Works with React
 
-This template compiles all `*.js` files in `src` into standard JS and copies it to `app`. There it includes `*.html` and `*.css` together with the `main.js` start file. From then it runs and packages using `gulp` as run through `npm`.
+[electron-vite](https://electron-vite.org/) bundles `main.js` into `out/main` and the renderer (`src/index.html` with its scripts and styles) into `out/renderer`; files in `src/public` are copied as they are. `npm start` runs the dev server and restarts Electron when `main.js` changes, `npm run build` writes `out`, and `npm run release` packages `out` with [electron-builder](https://www.electron.build/). The configuration is in `electron.vite.config.mjs`.
 
 
 <p align="center"> 

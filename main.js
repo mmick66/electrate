@@ -17,11 +17,16 @@ const createWindow = () => {
     }
   });
 
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+  // electron-vite sets ELECTRON_RENDERER_URL to the dev server in development.
+  if (process.env.ELECTRON_RENDERER_URL) {
+    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL);
+  } else {
+    mainWindow.loadURL(url.format({
+      pathname: path.join(__dirname, '../renderer/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null;

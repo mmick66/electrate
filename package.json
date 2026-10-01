@@ -1,15 +1,15 @@
 {
   "name": "electrate",
   "version": "1.0.0",
-  "description": "An Electron + React.js template with live reload, without a development server",
-  "main": "app/main.js",
+  "description": "An Electron + React.js template with hot reload, built with electron-vite",
+  "main": "out/main/index.js",
   "scripts": {
     "postinstall": "install-app-deps",
-    "build": "gulp build",
-    "start": "gulp",
+    "build": "electron-vite build",
+    "start": "electron-vite dev --watch",
     "test": "jest",
-    "release": "gulp release",
-    "make-icon": "gulp make-icon"
+    "release": "electron-vite build && electron-builder",
+    "make-icon": "electron-icon-maker --input=./assets/logo.png --output=."
   },
   "homepage": "https://github.com/mmick66/electrate#readme",
   "bugs": {
@@ -41,13 +41,10 @@
     "electron-builder": "^20.39.0",
     "electron-icon-maker": "0.0.4",
     "electron-react-devtools": "^0.5.3",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-clean-css": "^4.2.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-livereload": "^4.0.1",
+    "electron-vite": "^5.0.0",
     "jest": "^24.8.0",
-    "react-test-renderer": "^16.8.6"
+    "react-test-renderer": "^16.8.6",
+    "vite": "^7.3.6"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -59,8 +56,7 @@
   "build": {
     "appId": "com.karmadust.electrate",
     "files": [
-      "app/**/*",
-      "node_modules/**/*",
+      "out/**/*",
       "package.json"
     ],
     "publish": null
