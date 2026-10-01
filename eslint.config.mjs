@@ -8,9 +8,9 @@ export default [
 
   js.configs.recommended,
 
-  // Electron main process and build config run on Node.
+  // Electron main process, preload script and build config run on Node.
   {
-    files: ['main.js', '*.config.{js,mjs}'],
+    files: ['main.js', 'preload.js', '*.config.{js,mjs}'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
