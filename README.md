@@ -54,6 +54,8 @@ npm run release
 
 Check the `dist` folder for the app. [electron-builder](https://www.electron.build/icons) generates the macOS, Windows and Linux icons from that one PNG.
 
+The packaged app has its [Electron fuses](https://www.electronjs.org/docs/latest/tutorial/fuses) set, in `build.electronFuses` in `package.json`. It ignores `ELECTRON_RUN_AS_NODE`, `NODE_OPTIONS` and `--inspect`, loads its code only from an `app.asar` it verifies, encrypts its cookies and gives `file://` pages no extra privileges. Check them with `npx @electron/fuses read --app <path to the packaged app>`. Turning cookie encryption back off in a later release makes users lose their cookies. `process.fork` needs `ELECTRON_RUN_AS_NODE`; use a [utility process](https://www.electronjs.org/docs/latest/api/utility-process) instead. Flipping fuses breaks the code signature on macOS, and Apple silicon kills an app whose signature is broken, so `resetAdHocDarwinSignature` signs it again ad hoc; with a signing identity, electron-builder then signs it properly.
+
 ## How Electron Works with React
 
 [electron-vite](https://electron-vite.org/) bundles `main.js` into `out/main` and the renderer (`src/index.html` with its scripts and styles) into `out/renderer`; files in `src/public` are copied as they are. `npm start` runs the dev server and restarts Electron when `main.js` changes, `npm run build` writes `out`, and `npm run release` packages `out` with [electron-builder](https://www.electron.build/). The configuration is in `electron.vite.config.mjs`.
