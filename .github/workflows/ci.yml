@@ -50,10 +50,16 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      # Install scripts run here so CI also verifies the Electron binary
-      # download and the native/optional dependencies (esbuild, fsevents).
+      # Install scripts run here so CI also verifies the native/optional
+      # dependencies (esbuild, fsevents).
       - name: Install
         run: npm ci
+
+      # Electron 44+ has no install script: it downloads its binary lazily on
+      # first require. Neither the build nor Jest needs it, so fetch it here
+      # to keep catching download failures on every platform.
+      - name: Fetch Electron binary
+        run: npx --no install-electron
 
       - name: Build
         run: npm run build
