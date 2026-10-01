@@ -7,7 +7,7 @@
     "postinstall": "install-app-deps",
     "build": "gulp build",
     "start": "gulp",
-    "test": "gulp test",
+    "test": "jest",
     "release": "gulp release",
     "make-icon": "gulp make-icon"
   },

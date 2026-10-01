@@ -11,9 +11,6 @@ icons/
 # WebStorm Project Folder
 .idea
 
-# Jest Snapshot Folder
-**/__snapshots__/
-
 # Beads / Dolt files (added by bd init)
 .dolt/
 *.db
