@@ -1,7 +1,7 @@
 {
   "name": "electrate",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "An Electron + React.js template with live reload, without a development server",
   "main": "app/main.js",
   "scripts": {
     "postinstall": "install-app-deps",
@@ -11,16 +11,26 @@
     "release": "gulp release",
     "make-icon": "gulp make-icon"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "homepage": "https://github.com/mmick66/electrate#readme",
+  "bugs": {
+    "url": "https://github.com/mmick66/electrate/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmick66/electrate.git"
+  },
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "electron",
+    "react",
+    "template",
+    "boilerplate",
+    "live-reload"
   ],
-  "author": "GitHub",
+  "author": "Michael Michailidis",
   "license": "CC0-1.0",
+  "engines": {
+    "node": ">=22.18.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
