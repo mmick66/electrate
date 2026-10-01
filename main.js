@@ -1,7 +1,6 @@
 import electron from 'electron';
 import path from 'path';
 import url from 'url';
-import 'babel-polyfill';
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
