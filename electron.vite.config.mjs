@@ -9,6 +9,13 @@ export default defineConfig({
       }
     }
   },
+  preload: {
+    build: {
+      rollupOptions: {
+        input: { index: resolve('preload.js') }
+      }
+    }
+  },
   renderer: {
     root: resolve('src'),
     // The sources use JSX in plain .js files.

@@ -5,6 +5,7 @@ import 'babel-polyfill';
 
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const shell = electron.shell;
 
 let mainWindow;
 
@@ -13,7 +14,11 @@ const createWindow = () => {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      // The renderer gets no Node.js access; preload.js exposes what it needs.
+      preload: path.join(__dirname, '../preload/index.js'),
+      contextIsolation: true,
+      sandbox: true,
+      nodeIntegration: false
     }
   });
 
@@ -32,6 +37,26 @@ const createWindow = () => {
     mainWindow = null;
   });
 };
+
+// Links to the web open in the default browser; the app's own windows never
+// navigate away from the app or open new windows.
+const openExternally = (target) => {
+  const { protocol } = new URL(target);
+  if (protocol === 'https:' || protocol === 'http:') {
+    shell.openExternal(target);
+  }
+};
+
+app.on('web-contents-created', (event, contents) => {
+  contents.on('will-navigate', (navigationEvent, target) => {
+    navigationEvent.preventDefault();
+    openExternally(target);
+  });
+  contents.setWindowOpenHandler(({ url: target }) => {
+    openExternally(target);
+    return { action: 'deny' };
+  });
+});
 
 app.on('ready', createWindow);
 
