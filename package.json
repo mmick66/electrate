@@ -53,6 +53,8 @@
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
     "prettier": "^3.9.9",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "vite": "^7.3.6"
   },
   "jest": {
@@ -60,10 +62,6 @@
     "setupFiles": [
       "<rootDir>/jest.setup.js"
     ]
-  },
-  "dependencies": {
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0"
   },
   "allowScripts": {
     "electron-winstaller": true,
