@@ -14,8 +14,10 @@ const mockElectron = {
   },
   BrowserWindow: jest.fn(() => {
     order.push('window');
-    return { loadURL: jest.fn(), loadFile: jest.fn() };
+    return { loadURL: jest.fn() };
   }),
+  net: { fetch: jest.fn() },
+  protocol: { registerSchemesAsPrivileged: jest.fn(), handle: jest.fn() },
   session: {
     defaultSession: {
       setPermissionRequestHandler: jest.fn(() => order.push('request handler')),

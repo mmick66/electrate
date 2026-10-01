@@ -30,10 +30,11 @@ const runMain = async () => {
       jest.fn(function () {
         windows.push(this);
         this.loadURL = jest.fn();
-        this.loadFile = jest.fn();
       }),
       { getAllWindows: () => windows },
     ),
+    net: { fetch: jest.fn() },
+    protocol: { registerSchemesAsPrivileged: jest.fn(), handle: jest.fn() },
     session: {
       defaultSession: {
         setPermissionRequestHandler: jest.fn(),
@@ -59,9 +60,7 @@ test('main.js runs without a transform and opens a window once ready', async () 
   const { windows } = await runMain();
 
   expect(windows).toHaveLength(1);
-  expect(windows[0].loadFile).toHaveBeenCalledWith(
-    expect.stringMatching(/renderer[\\/]index\.html$/),
-  );
+  expect(windows[0].loadURL).toHaveBeenCalledWith('app://renderer/index.html');
 });
 
 test('activate opens a window only when none is open', async () => {
