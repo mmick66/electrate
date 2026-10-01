@@ -97,6 +97,8 @@ The app shows its version with one example of [IPC](https://www.electronjs.org/d
 
 The app's windows never navigate away from the app or open new windows. A link the user follows opens in the default browser instead, if it is an `https:` address; `isAllowedExternalUrl` in `main.js` decides which links may leave the app, so narrow it there to the sites your app links to.
 
+`main.js` sets the application menu before the app is ready, so Electron never builds its default one. On macOS it keeps the App, Edit and Window menus, which make Cmd+C/V/X/A/Z and Cmd+Q work; on Windows and Linux the packaged app has no menu bar, since text fields handle those shortcuts without one. In development every platform also gets the View menu, for reload and DevTools. Add your own menus to `applicationMenu` in `main.js`.
+
 ```mermaid
 flowchart LR
   electron([Electron]) -- runs --> main["main.js<br/>creates the BrowserWindow"]

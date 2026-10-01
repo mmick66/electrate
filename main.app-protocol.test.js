@@ -49,6 +49,7 @@ const runMain = async () => {
       { getAllWindows: () => [] },
     ),
     ipcMain: { handle: jest.fn() },
+    Menu: { buildFromTemplate: jest.fn(), setApplicationMenu: jest.fn() },
     net: {
       fetch: jest.fn(async (url) => {
         const body = fs.readFileSync(fileURLToPath(url));

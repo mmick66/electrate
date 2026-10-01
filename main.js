@@ -4,6 +4,7 @@ const {
   app,
   BrowserWindow,
   ipcMain,
+  Menu,
   net,
   protocol,
   session,
@@ -100,6 +101,27 @@ const serveRenderer = async (request) => {
 // Sandbox every renderer the app ever creates, not only the main window. It
 // must run before the app is ready.
 app.enableSandbox();
+
+// The application menu, set before the app is ready so Electron never builds
+// its default one. On macOS the menu is what makes Cmd+C/V/X/A/Z and Cmd+Q
+// work, so the app keeps the App, Edit and Window menus. Windows and Linux
+// handle those shortcuts in text fields without a menu, so a packaged app
+// there has no menu bar. In development every platform also gets the View
+// menu, for its reload and DevTools shortcuts.
+const applicationMenu = () => {
+  const development = !app.isPackaged;
+  if (process.platform === 'darwin') {
+    return Menu.buildFromTemplate([
+      { role: 'appMenu' },
+      { role: 'editMenu' },
+      ...(development ? [{ role: 'viewMenu' }] : []),
+      { role: 'windowMenu' },
+    ]);
+  }
+  return development ? Menu.buildFromTemplate([{ role: 'viewMenu' }]) : null;
+};
+
+Menu.setApplicationMenu(applicationMenu());
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
