@@ -33,6 +33,15 @@ The tool of choice is [Jest](https://facebook.github.io/jest/docs/en/tutorial-re
 npm run test
 ```
 
+## Linting
+
+[ESLint](https://eslint.org/) (configured in `eslint.config.mjs`) checks the code and runs in CI; [Prettier](https://prettier.io/) formats it.
+
+```
+npm run lint
+npm run format
+```
+
 ## Packaging
 
 Replace the icon inside the `build` folder and run

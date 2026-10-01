@@ -14,6 +14,24 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      # ESLint needs no install scripts; see the build-and-test job below.
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      - name: Lint
+        run: npm run lint
+
   build-and-test:
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}

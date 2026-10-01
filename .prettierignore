@@ -1,0 +1,6 @@
+out/
+dist/
+icons/
+package-lock.json
+.beads/
+.orchestra/
