@@ -1,15 +1,10 @@
-import electron from 'electron';
-import path from 'path';
-import url from 'url';
-
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const shell = electron.shell;
-
-let mainWindow;
+// Plain CommonJS, so Electron and Node load this file as it is: no Babel or
+// bundler transform is needed to run it.
+const { app, BrowserWindow, shell } = require('electron');
+const path = require('node:path');
 
 const createWindow = () => {
-  mainWindow = new BrowserWindow({
+  const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -17,8 +12,8 @@ const createWindow = () => {
       preload: path.join(__dirname, '../preload/index.js'),
       contextIsolation: true,
       sandbox: true,
-      nodeIntegration: false
-    }
+      nodeIntegration: false,
+    },
   });
 
   // electron-vite sets ELECTRON_RENDERER_URL to the dev server in development.
@@ -27,16 +22,8 @@ const createWindow = () => {
   if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
     mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL);
   } else {
-    mainWindow.loadURL(url.format({
-      pathname: path.join(__dirname, '../renderer/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
+    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
   }
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
 };
 
 // Links to the web open in the default browser; the app's own windows never
@@ -59,16 +46,20 @@ app.on('web-contents-created', (event, contents) => {
   });
 });
 
-app.on('ready', createWindow);
+app.whenReady().then(() => {
+  createWindow();
+
+  // On macOS the app stays open with no windows; clicking the dock icon
+  // opens a new one.
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+      createWindow();
+    }
+  });
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit()
-  }
-});
-
-app.on('activate', () => {
-  if (mainWindow === null) {
-    createWindow();
+    app.quit();
   }
 });

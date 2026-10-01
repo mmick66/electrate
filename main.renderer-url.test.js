@@ -4,8 +4,12 @@
 // app always loads the bundled renderer.
 
 const mockElectron = {
-  app: { isPackaged: false, on: jest.fn() },
-  BrowserWindow: jest.fn(() => ({ loadURL: jest.fn(), on: jest.fn() })),
+  app: {
+    isPackaged: false,
+    on: jest.fn(),
+    whenReady: jest.fn(() => Promise.resolve()),
+  },
+  BrowserWindow: jest.fn(() => ({ loadURL: jest.fn(), loadFile: jest.fn() })),
   shell: { openExternal: jest.fn() },
 };
 
@@ -13,16 +17,17 @@ jest.mock('electron', () => mockElectron);
 
 const DEV_SERVER = 'http://localhost:5173';
 
-const loadedURL = () => {
+// What the main window loads once the app is ready: a URL, or a file path.
+const loaded = async () => {
   jest.isolateModules(() => {
     require('./main');
   });
-  const [, createWindow] = mockElectron.app.on.mock.calls.find(
-    ([event]) => event === 'ready',
-  );
-  createWindow();
+  await mockElectron.app.whenReady.mock.results[0].value;
   const window = mockElectron.BrowserWindow.mock.results[0].value;
-  return window.loadURL.mock.calls[0][0];
+  if (window.loadURL.mock.calls.length > 0) {
+    return { url: window.loadURL.mock.calls[0][0] };
+  }
+  return { file: window.loadFile.mock.calls[0][0] };
 };
 
 beforeEach(() => {
@@ -34,23 +39,23 @@ afterEach(() => {
   delete process.env.ELECTRON_RENDERER_URL;
 });
 
-test('development loads the dev server from ELECTRON_RENDERER_URL', () => {
+test('development loads the dev server from ELECTRON_RENDERER_URL', async () => {
   mockElectron.app.isPackaged = false;
 
-  expect(loadedURL()).toBe(DEV_SERVER);
+  expect(await loaded()).toEqual({ url: DEV_SERVER });
 });
 
-test('a packaged app ignores ELECTRON_RENDERER_URL and loads the bundled renderer', () => {
+test('a packaged app ignores ELECTRON_RENDERER_URL and loads the bundled renderer', async () => {
   mockElectron.app.isPackaged = true;
 
-  const loaded = loadedURL();
-  expect(loaded).toMatch(/^file:\/\//);
-  expect(loaded).toMatch(/renderer[\\/]index\.html$/);
+  const { file } = await loaded();
+  expect(file).toMatch(/renderer[\\/]index\.html$/);
 });
 
-test('development without ELECTRON_RENDERER_URL loads the bundled renderer', () => {
+test('development without ELECTRON_RENDERER_URL loads the bundled renderer', async () => {
   mockElectron.app.isPackaged = false;
   delete process.env.ELECTRON_RENDERER_URL;
 
-  expect(loadedURL()).toMatch(/^file:\/\/.*renderer[\\/]index\.html$/);
+  const { file } = await loaded();
+  expect(file).toMatch(/renderer[\\/]index\.html$/);
 });

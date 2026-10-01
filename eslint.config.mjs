@@ -17,6 +17,11 @@ export default [
       globals: globals.node,
     },
   },
+  // The main process is plain CommonJS, loaded without a transform.
+  {
+    files: ['main.js'],
+    languageOptions: { sourceType: 'commonjs' },
+  },
 
   // The renderer is React with JSX in plain .js files.
   {
