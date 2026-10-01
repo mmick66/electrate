@@ -22,7 +22,9 @@ const createWindow = () => {
   });
 
   // electron-vite sets ELECTRON_RENDERER_URL to the dev server in development.
-  if (process.env.ELECTRON_RENDERER_URL) {
+  // A packaged app ignores it, so the environment cannot point the window at
+  // a remote page.
+  if (!app.isPackaged && process.env.ELECTRON_RENDERER_URL) {
     mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL);
   } else {
     mainWindow.loadURL(url.format({
